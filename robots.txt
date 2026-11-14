@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ClientStash.github.io/sitemap.xml

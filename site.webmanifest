@@ -1,0 +1,17 @@
+{
+  "name": "ClientStash",
+  "short_name": "ClientStash",
+  "description": "Free DonutSMP clients, cracked clients and Fabric mods for Minecraft 1.21.x and 26.x.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#090a08",
+  "theme_color": "#090a08",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

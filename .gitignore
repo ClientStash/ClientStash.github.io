@@ -1,0 +1,6 @@
+# Local-only Admin CMS (Do not push to public GitHub Pages)
+admin.html
+
+# Python build artifacts
+__pycache__/
+*.py[cod]
