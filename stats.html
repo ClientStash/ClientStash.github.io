@@ -1,270 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Download Statistics & Leaderboard | ClientStash</title>
-
-    <!-- Hidden Admin Dashboard: No Search Engine Indexing -->
-    <meta name="robots" content="noindex, nofollow">
+    <title>Download Statistics | ClientStash</title>
+    <meta name="description" content="Private-link download statistics for ClientStash mods and clients.">
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+    <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
     <meta name="theme-color" content="#090a08">
-    <meta name="application-name" content="ClientStash">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
-    <link rel="apple-touch-icon" href="favicon.png">
     <link rel="manifest" href="site.webmanifest">
-
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
     <link rel="stylesheet" href="style.css">
 </head>
-
-<body class="stats-page">
-
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <a class="logo home-logo" href="index.html" aria-label="ClientStash home"><img class="site-logo" src="logo.svg" alt="ClientStash" width="242" height="48"></a>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="index.html#installation">Installation</a>
-            <a href="stats.html" style="color: var(--accent);">Live Stats</a>
-        </div>
+<body class="detail-page stats-page">
+    <a class="skip-link" href="#stats-main">Skip to statistics</a>
+    <nav class="navbar detail-nav" aria-label="Statistics navigation">
+        <a class="logo home-logo" href="./" aria-label="ClientStash home"><img class="site-logo" src="logo.svg" alt="ClientStash" width="242" height="48"></a>
+        <div class="nav-links"><a href="./#mods">Clients</a><a href="./#testing">Testing</a><a href="./#installation">Install</a></div>
+        <a class="nav-cta" href="./#mods">View clients <span aria-hidden="true">↗</span></a>
     </nav>
 
-    <!-- Main Container -->
-    <div class="container stats-container">
-        <!-- Header -->
-        <div class="stats-header-box">
-            <span class="stats-pill-badge">
-                <span class="pulse-dot"></span> REAL-TIME TELEMETRY
-            </span>
-            <h1 class="stats-title">Live Download Statistics</h1>
-            <p class="stats-subtitle">Real-time download metrics and popularity tracker for all DonutSMP clients and stealth utilities.</p>
+    <main id="stats-main" class="stats-main">
+        <div class="container">
+            <header class="stats-hero">
+                <div><span class="stats-eyebrow"><i aria-hidden="true"></i> Private-link telemetry</span><h1>Download<br><em>statistics.</em></h1></div>
+                <div class="stats-intro"><p>Live download selections across the ClientStash catalog. Counts begin from the current tracking reset and update when a version download is selected.</p><span>No cookies · No personal data · Public aggregate counters</span></div>
+            </header>
+
+            <section class="stats-kpi-grid" aria-label="Download summary">
+                <article class="kpi-card"><span class="kpi-index">01</span><div><span class="kpi-label">Total downloads</span><strong class="kpi-val" id="total-dl-val">0</strong></div></article>
+                <article class="kpi-card"><span class="kpi-index">02</span><div><span class="kpi-label">Most selected</span><strong class="kpi-val highlight" id="top-mod-val">No downloads yet</strong></div></article>
+                <article class="kpi-card"><span class="kpi-index">03</span><div><span class="kpi-label">Tracked listings</span><strong class="kpi-val" id="active-mods-val">0</strong></div></article>
+                <article class="kpi-card"><span class="kpi-index">04</span><div><span class="kpi-label">Tracking status</span><strong class="kpi-val green" id="tracking-status">Live</strong></div></article>
+            </section>
+
+            <section class="stats-board" aria-labelledby="leaderboard-title">
+                <div class="stats-toolbar">
+                    <div><span>Collection / live</span><h2 id="leaderboard-title">Download leaderboard</h2></div>
+                    <div class="stats-toolbar-actions"><span class="live-status-indicator"><i aria-hidden="true"></i>Updated <time id="last-updated-text">now</time></span><button type="button" class="btn-refresh-stats" id="btn-refresh"><span class="material-symbols-outlined" id="refresh-icon" aria-hidden="true">sync</span>Refresh</button></div>
+                </div>
+                <div class="stats-table-card">
+                    <table class="stats-table">
+                        <thead><tr><th>Rank</th><th>Client / mod</th><th>Versions</th><th>Status</th><th class="numeric">Downloads</th><th><span class="sr-only">Open</span></th></tr></thead>
+                        <tbody id="stats-table-body"><tr><td colspan="6" class="stats-message"><span class="material-symbols-outlined spin" aria-hidden="true">sync</span>Loading counters…</td></tr></tbody>
+                    </table>
+                </div>
+                <p class="stats-footnote">This page is excluded from the sitemap, blocked in robots.txt, and marked noindex. Anyone with its direct URL can still open it.</p>
+            </section>
         </div>
+    </main>
 
-        <!-- Metric KPI Cards -->
-        <div class="stats-kpi-grid">
-            <div class="kpi-card">
-                <div class="kpi-icon-wrap">
-                    <span class="material-symbols-outlined">download</span>
-                </div>
-                <div class="kpi-info">
-                    <span class="kpi-label">TOTAL NETWORK DOWNLOADS</span>
-                    <h2 class="kpi-val" id="total-dl-val">Loading...</h2>
-                </div>
-            </div>
+    <footer class="home-footer detail-footer"><div class="container footer-grid"><a class="logo home-logo" href="./" aria-label="ClientStash home"><img class="site-logo" src="logo.svg" alt="ClientStash" width="242" height="48"></a><p>Aggregate download selections only. No visitor profiles are stored.</p><span>© 2026 ClientStash</span></div></footer>
 
-            <div class="kpi-card">
-                <div class="kpi-icon-wrap trophy">
-                    <span class="material-symbols-outlined">trophy</span>
-                </div>
-                <div class="kpi-info">
-                    <span class="kpi-label">MOST POPULAR MOD</span>
-                    <h2 class="kpi-val highlight" id="top-mod-val">Loading...</h2>
-                </div>
-            </div>
-
-            <div class="kpi-card">
-                <div class="kpi-icon-wrap">
-                    <span class="material-symbols-outlined">apps</span>
-                </div>
-                <div class="kpi-info">
-                    <span class="kpi-label">ACTIVE CLIENTS & MODS</span>
-                    <h2 class="kpi-val" id="active-mods-val">7</h2>
-                </div>
-            </div>
-
-            <div class="kpi-card">
-                <div class="kpi-icon-wrap shield">
-                    <span class="material-symbols-outlined">verified_user</span>
-                </div>
-                <div class="kpi-info">
-                    <span class="kpi-label">UNDETECTED ACCURACY</span>
-                    <h2 class="kpi-val green">100%</h2>
-                </div>
-            </div>
-        </div>
-
-        <!-- Live Controls Toolbar -->
-        <div class="stats-toolbar">
-            <div class="live-status-indicator">
-                <span class="pulse-dot green"></span>
-                <span>Live Sync Active &bull; Updated <span id="last-updated-text">Just now</span></span>
-            </div>
-            <button type="button" class="btn-refresh-stats" id="btn-refresh">
-                <span class="material-symbols-outlined" id="refresh-icon">sync</span>
-                Refresh Counts
-            </button>
-        </div>
-
-        <!-- Leaderboard Table Card -->
-        <div class="stats-table-card">
-            <table class="stats-table" id="stats-table">
-                <thead>
-                    <tr>
-                        <th style="width: 80px; text-align: center;">RANK</th>
-                        <th>MOD / CLIENT NAME</th>
-                        <th>MINECRAFT VERSION</th>
-                        <th>FILE SIZE</th>
-                        <th>STATUS</th>
-                        <th style="text-align: right;">TOTAL DOWNLOADS</th>
-                        <th style="width: 130px; text-align: center;">ACTION</th>
-                    </tr>
-                </thead>
-                <tbody id="stats-table-body">
-                    <tr>
-                        <td colspan="7" style="text-align: center; padding: 50px; color: var(--text-dim);">
-                            <span class="material-symbols-outlined spin" style="font-size: 32px; display: block; margin-bottom: 10px; color: var(--accent);">sync</span>
-                            Connecting to Live Counter API...
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer
-        style="padding: 60px; text-align: center; color: #475569; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 80px;">
-        <p>&copy; 2026 ClientStash. Real-time telemetry powered by CountAPI.</p>
-    </footer>
-
-    <!-- Stats Script Logic -->
     <script>
-        const API_BASE = 'https://countapi.mileshilliard.com/api/v1/get/donutsmp_v1_';
+        const API_ROOT = 'https://countapi.mileshilliard.com/api/v1';
+        const COUNTER_PREFIX = 'clientstash_download_v2_';
         let isFetching = false;
+        const escapeHtml = (value = '') => String(value).replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
+        const formatNumber = value => Number(value || 0).toLocaleString();
 
-        function parseDownloads(dlStr) {
-            if (!dlStr) return 0;
-            return parseInt(String(dlStr).replace(/,/g, ''), 10) || 0;
-        }
-
-        function formatNumber(num) {
-            return Number(num).toLocaleString();
-        }
-
-        async function fetchLiveCount(modId) {
+        async function fetchLiveCount(productId) {
             try {
-                const res = await fetch(`${API_BASE}${modId}`, { method: 'GET', mode: 'cors' });
-                if (res.ok) {
-                    const data = await res.json();
-                    return data.value || 0;
-                }
-            } catch (err) {
-                // Silently fallback to 0 if API is unreachable
-            }
-            return 0;
+                const key = encodeURIComponent(`${COUNTER_PREFIX}${productId}`);
+                const response = await fetch(`${API_ROOT}/get/${key}`, { cache: 'no-store' });
+                if (response.status === 404) return 0;
+                if (!response.ok) throw new Error(`Counter HTTP ${response.status}`);
+                const data = await response.json();
+                return Number(data.value) || 0;
+            } catch (error) { return 0; }
+        }
+
+        function renderRows(items) {
+            document.getElementById('stats-table-body').innerHTML = items.map((item, index) => {
+                const rank = index + 1;
+                const detected = String(item.status).trim().toUpperCase() === 'DETECTED';
+                return `<tr><td><span class="rank-badge ${rank <= 3 && item.liveHitCount > 0 ? `rank-${rank}` : ''}">${String(rank).padStart(2, '0')}</span></td><td><div class="mod-cell-info"><strong class="mod-cell-name">${escapeHtml(item.name)}</strong><span class="mod-cell-tags">${escapeHtml((item.tags || []).slice(0, 2).join(' · '))}</span></div></td><td><span class="version-pill">${escapeHtml(item.version)}</span></td><td><span class="status-badge ${detected ? 'detected' : ''}">${escapeHtml(item.status)}</span></td><td class="numeric"><strong class="dl-count-num">${formatNumber(item.liveHitCount)}</strong></td><td><a class="btn-table-view" href="clients/${encodeURIComponent(item.id)}/" aria-label="Open ${escapeHtml(item.name)}"><span class="material-symbols-outlined" aria-hidden="true">arrow_outward</span></a></td></tr>`;
+            }).join('');
         }
 
         async function loadStats() {
             if (isFetching) return;
             isFetching = true;
-
             const refreshIcon = document.getElementById('refresh-icon');
-            if (refreshIcon) refreshIcon.classList.add('spin');
-
+            refreshIcon.classList.add('spin');
             try {
-                const response = await fetch('./products.json');
-                const products = await response.json();
-                const visible = products.filter(p => p.visibility !== false);
-
-                // Fetch real live hits in parallel for all visible products
-                const liveCountPromises = visible.map(p => fetchLiveCount(p.id));
-                const liveCounts = await Promise.all(liveCountPromises);
-
-                const statsData = visible.map((p, idx) => {
-                    const liveHitCount = liveCounts[idx] || 0;
-
-                    return {
-                        ...p,
-                        liveHitCount
-                    };
-                });
-
-                // Sort by real API download hits descending, then alphabetically
-                statsData.sort((a, b) => {
-                    if (b.liveHitCount !== a.liveHitCount) {
-                        return b.liveHitCount - a.liveHitCount;
-                    }
-                    return a.name.localeCompare(b.name);
-                });
-
-                // Compute KPI Totals
-                const grandTotal = statsData.reduce((acc, curr) => acc + curr.liveHitCount, 0);
-                const topModWithHits = statsData.find(item => item.liveHitCount > 0);
-
-                document.getElementById('total-dl-val').innerText = formatNumber(grandTotal);
-                document.getElementById('top-mod-val').innerText = topModWithHits ? topModWithHits.name : (statsData[0] ? statsData[0].name : 'N/A');
-                document.getElementById('active-mods-val').innerText = statsData.length;
-
-                // Render Table Rows
-                const tbody = document.getElementById('stats-table-body');
-                tbody.innerHTML = statsData.map((item, index) => {
-                    const rank = index + 1;
-                    let rankBadge = `<span class="rank-badge other">#${rank}</span>`;
-                    if (item.liveHitCount > 0) {
-                        if (rank === 1) rankBadge = `<span class="rank-badge gold">🥇 #1</span>`;
-                        else if (rank === 2) rankBadge = `<span class="rank-badge silver">🥈 #2</span>`;
-                        else if (rank === 3) rankBadge = `<span class="rank-badge bronze">🥉 #3</span>`;
-                    }
-
-                    const isDetected = item.status && item.status.trim().toUpperCase() === 'DETECTED';
-
-                    return `
-                        <tr>
-                            <td style="text-align: center;">${rankBadge}</td>
-                            <td>
-                                <div class="mod-cell-info">
-                                    <span class="mod-cell-name">${item.name}</span>
-                                    <span class="mod-cell-tags">${item.tags.slice(0, 2).join(' &bull; ')}</span>
-                                </div>
-                            </td>
-                            <td><span class="version-pill">${item.version}</span></td>
-                            <td><span class="size-pill">${item.size}</span></td>
-                            <td>
-                                <span class="status-badge ${isDetected ? 'detected' : ''}">
-                                    ${item.status}
-                                </span>
-                            </td>
-                            <td style="text-align: right;">
-                                <div class="dl-count-cell">
-                                    <span class="dl-count-num">${formatNumber(item.liveHitCount)}</span>
-                                    <span class="live-increment-badge">real clicks</span>
-                                </div>
-                            </td>
-                            <td style="text-align: center;">
-                                <a href="detail.html?id=${item.id}" class="btn-table-view">View Mod</a>
-                            </td>
-                        </tr>
-                    `;
-                }).join('');
-
-                document.getElementById('last-updated-text').innerText = new Date().toLocaleTimeString();
-
-            } catch (err) {
-                console.error("Failed to load statistics:", err);
-                document.getElementById('stats-table-body').innerHTML = `
-                    <tr>
-                        <td colspan="7" style="text-align: center; color: var(--status-red); padding: 40px;">
-                            Failed to load statistics. Please try refreshing again.
-                        </td>
-                    </tr>
-                `;
-            } finally {
-                isFetching = false;
-                if (refreshIcon) refreshIcon.classList.remove('spin');
-            }
+                const response = await fetch('./products.json', { cache: 'no-store' });
+                if (!response.ok) throw new Error(`Products HTTP ${response.status}`);
+                const products = (await response.json()).filter(product => product.visibility === true);
+                const counts = await Promise.all(products.map(product => fetchLiveCount(product.id)));
+                const stats = products.map((product, index) => ({ ...product, liveHitCount: counts[index] }));
+                stats.sort((a, b) => b.liveHitCount - a.liveHitCount || a.name.localeCompare(b.name));
+                const total = stats.reduce((sum, item) => sum + item.liveHitCount, 0);
+                const leader = stats.find(item => item.liveHitCount > 0);
+                document.getElementById('total-dl-val').textContent = formatNumber(total);
+                document.getElementById('top-mod-val').textContent = leader ? leader.name : 'No downloads yet';
+                document.getElementById('active-mods-val').textContent = formatNumber(stats.length);
+                document.getElementById('tracking-status').textContent = 'Live';
+                document.getElementById('last-updated-text').textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                renderRows(stats);
+            } catch (error) {
+                document.getElementById('tracking-status').textContent = 'Unavailable';
+                document.getElementById('stats-table-body').innerHTML = '<tr><td colspan="6" class="stats-message stats-error">Statistics are temporarily unavailable. Please refresh to try again.</td></tr>';
+            } finally { isFetching = false; refreshIcon.classList.remove('spin'); }
         }
-
         document.getElementById('btn-refresh').addEventListener('click', loadStats);
         window.addEventListener('DOMContentLoaded', loadStats);
     </script>
 </body>
-
 </html>

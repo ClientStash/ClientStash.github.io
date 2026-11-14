@@ -27,6 +27,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
     <link rel="stylesheet" href="style.css">
+    <script src="scripts/download-tracking.js"></script>
     <script type="application/ld+json" id="product-schema">{"@context":"https://schema.org","@type":"WebPage","name":"DonutSMP client details"}</script>
 </head>
 <body class="detail-page">
@@ -183,7 +184,7 @@
                 const badges = (build.badges || [build.badge]).filter(Boolean).map(badge => `<span class="version-badge green">${escapeHtml(badge)}</span>`).join('');
                 const modName = String(product.name).replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-+|-+$/g, '');
                 const fileVersion = String(build.version).replace(/[^a-zA-Z0-9.-]/g, '-');
-                return `<div class="version-item-card"><div class="version-item-info"><div class="version-item-title-row"><span class="version-item-name">${escapeHtml(build.name || build.version)}</span>${badges}</div><p class="version-item-desc">${escapeHtml(build.desc || `Fabric build for Minecraft ${build.version}.`)}</p><span class="version-item-meta">${escapeHtml(build.size || product.size)}</span></div><a href="${escapeHtml(build.download_url || product.download_url || 'mods/mod.jar')}" download="${modName}-${fileVersion}.jar" class="btn-version-download"><span class="material-symbols-outlined">download</span>Download</a></div>`;
+                return `<div class="version-item-card"><div class="version-item-info"><div class="version-item-title-row"><span class="version-item-name">${escapeHtml(build.name || build.version)}</span>${badges}</div><p class="version-item-desc">${escapeHtml(build.desc || `Fabric build for Minecraft ${build.version}.`)}</p><span class="version-item-meta">${escapeHtml(build.size || product.size)}</span></div><a href="${escapeHtml(build.download_url || product.download_url || 'mods/mod.jar')}" download="${modName}-${fileVersion}.jar" data-download-product="${escapeHtml(product.id)}" class="btn-version-download"><span class="material-symbols-outlined">download</span>Download</a></div>`;
             }).join('');
             const open = event => { event.preventDefault(); modal.classList.add('active'); modal.setAttribute('aria-hidden', 'false'); close.focus(); };
             const hide = () => { modal.classList.remove('active'); modal.setAttribute('aria-hidden', 'true'); };
